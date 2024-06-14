@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  spring-petclinic:
+    image: spring-petclinic
+    build:
+      context: ./spring-petclinic
+    ports:
+      - "8080:8080"
+      - "12345:12345"
+    networks:
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - /etc/prometheus:/etc/prometheus
+    networks:
+      - prometheus
+
+networks:
+  prometheus:
+    driver: bridge
