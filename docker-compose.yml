@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   spring-petclinic:
     image: spring-petclinic
     build:
-      context: ./spring-petclinic
+      context: ~/spring-petclinic
     ports:
       - "8080:8080"
       - "12345:12345"
