@@ -125,7 +125,7 @@ scrape_configs:
           - localhost
         labels:
           job: petclinic-logs
-          __path__: /var/log/spring-petclinic.log
+          __path__: ~/spring-petclinic.log
 EOL
 
 
@@ -137,9 +137,9 @@ else
   echo "Repository $SPRING_PETCLINIC_DIR already exists."
 fi
 
-# Build and run the Spring Petclinic application
+# Build, run and get the Spring Petclinic application logs
 cd "$SPRING_PETCLINIC_DIR"
 ./mvnw package
-java -jar target/*.jar > /var/log/spring-petclinic.log &
+java -jar target/*.jar > ~/spring-petclinic.log
 
 echo "Setup completed successfully."
