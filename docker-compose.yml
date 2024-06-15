@@ -17,7 +17,38 @@ services:
       - /etc/prometheus:/etc/prometheus
     networks:
       - prometheus
+  
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - prometheus
+  
+  loki:
+    image: grafana/loki:2.9.0
+    ports:
+      - "3100:3100"
+    volumes:
+      - /etc/loki:/mnt/config
+    command: -config.file=/mnt/config/loki-config.yaml
+    networks:
+      - prometheus
+
+  promtail:
+    image: grafana/promtail:2.9.2
+    volumes:
+      - /var/log:/var/log
+      - /etc/promtail:/mnt/config
+    command: -config.file=/mnt/config/promtail-config.yaml
+    networks:
+      - prometheus
 
 networks:
   prometheus:
     driver: bridge
+
+volumes:
+  grafana-storage:
