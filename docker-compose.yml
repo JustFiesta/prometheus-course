@@ -28,17 +28,18 @@ services:
       - prometheus
   
   loki:
-    image: grafana/loki:2.9.0
+    image: grafana/loki
     ports:
       - "3100:3100"
     volumes:
       - /etc/loki:/mnt/config
+      - /var/log:/var/log/host_logs
     command: -config.file=/mnt/config/loki-config.yaml
     networks:
       - prometheus
 
   promtail:
-    image: grafana/promtail:2.9.2
+    image: grafana/promtail
     volumes:
       - /var/log:/var/log
       - /etc/promtail:/mnt/config
