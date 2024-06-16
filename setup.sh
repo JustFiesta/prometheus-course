@@ -8,9 +8,10 @@ PROMETHEUS_CONFIG="$PROMETHEUS_DIR/prometheus.yml"
 LOKI_DIR="/etc/loki"
 LOKI_CONFIG="$LOKI_DIR/loki-config.yaml"
 PROMTAIL_DIR="/etc/promtail"
-PROMTAIL_CONFIG="$LOKI_DIR/promtail-config.yaml"
+PROMTAIL_CONFIG="$PROMTAIL_DIR/promtail-config.yaml"
 SPRING_PETCLINIC_REPO="https://github.com/JustFiesta/spring-petclinic.git"
 SPRING_PETCLINIC_DIR="$HOME/spring-petclinic"
+LOG_DIR="$HOME/log"
 
 # Check if EC2_PUBLIC_IP is set
 if [ -z "$EC2_PUBLIC_IP" ]; then
@@ -36,10 +37,7 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
-
-    # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
     static_configs:
       - targets: ['localhost:9090']
@@ -125,9 +123,8 @@ scrape_configs:
           - localhost
         labels:
           job: petclinic-logs
-          __path__: ~/spring-petclinic.log
+          __path__: /var/log/spring-petclinic.log
 EOL
-
 
 # Fetch repository
 if [ ! -d "$SPRING_PETCLINIC_DIR" ]; then
@@ -137,9 +134,14 @@ else
   echo "Repository $SPRING_PETCLINIC_DIR already exists."
 fi
 
+# Create log directory if not existing
+if [ ! -d "$LOG_DIR" ]; then
+  mkdir "$LOG_DIR"
+fi
+
 # Build, run and get the Spring Petclinic application logs
 cd "$SPRING_PETCLINIC_DIR"
 ./mvnw package
-java -jar target/*.jar > ~/spring-petclinic.log
+java -jar target/*.jar > "$LOG_DIR/spring-petclinic.log"
 
 echo "Setup completed successfully."

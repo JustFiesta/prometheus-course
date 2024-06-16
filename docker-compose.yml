@@ -42,6 +42,7 @@ services:
     image: grafana/promtail
     volumes:
       - /var/log:/var/log
+      - ~/log:/var/log
       - /etc/promtail:/mnt/config
     command: -config.file=/mnt/config/promtail-config.yaml
     networks:
