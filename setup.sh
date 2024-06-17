@@ -21,6 +21,17 @@ fi
 
 # Script - start
 
+cat << EOF
+"Please open these ports on host machine: 
+    9080 	Promtail
+    9090	Prometheus
+    3100	Loki
+    8080	Spring-petclinic app
+    22	    SSH
+    3000	Grafana
+    12345	JMX exporter metrics"
+EOF
+
 # Go to home directory
 cd ~
 
@@ -114,16 +125,17 @@ positions:
   filename: /tmp/positions.yaml
 
 clients:
-  - url: http://$EC2_PUBLIC_IP:3100/loki/api/v1/push
+  - url: http://localhost:3100/loki/api/v1/push
 
 scrape_configs:
-  - job_name: petclinic-logs
-    static_configs:
-      - targets:
-          - localhost
-        labels:
-          job: petclinic-logs
-          __path__: /var/log/spring-petclinic.log
+- job_name: system
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      __path__: /var/log/*log
+      stream: stdout
 EOL
 
 # Fetch repository
