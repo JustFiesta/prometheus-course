@@ -2,23 +2,16 @@
 
 This repository contains my journey with Prometheus Monitoring tool.
 
-The assesment was to create basic setup for spring-petlinic app and monitor it via JMX exporter.
+Here are some basic infortmations about Prometheus - serving as personal Notes.
 
-<hr>
+For the assesments/projects and their notes check individual folders.
+
+---
 
 ## What is Monitoring and Observability?
 
 [Article about Monitorin and Observability](https://dora.dev/devops-capabilities/technical/monitoring-and-observability/)
 [Monitoring Anti Patterns](https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/anti-patterns-for-continuous-monitoring.html) - there are more
-
-## Service Discovery
-
-Due to too much manual work engaged in adding new endpoints to monitor a Service Discovery tool is used for automated process.
-
-Some of these services:
-* Consul
-* Zookeeper + Nerve
-* Kubernetes (has its own Service Discovery)
 
 ## What is Prometheus?
 
@@ -40,7 +33,7 @@ Also can alert teammembers via different channels. To do so it uses AlerManager.
 
 ## Push vs Pull system
 
-Each has its own advantages, for eg. 
+Each has its own advantages, for eg.
 
 * push is more resource hungry due to network load from custom push daemons
 * pull might be harder to implement in enviromets with aggresive firewalls or complicated networks
@@ -78,6 +71,16 @@ Examples of usage do build custom Counters, Gauges, Histograms and other are pla
 cAdvisor is used to monitor containers metrics. It automaticly checks container metrics. One also needs to add it to `prometheus.yml`
 
 [More on cAdvisor](https://prometheus.io/docs/guides/cadvisor/)
+
+## Service Discovery
+
+Due to too much manual work engaged in adding new endpoints to monitor a Service Discovery tool is used for automated process.
+
+Some of these services:
+
+* Consul
+* Zookeeper + Nerve
+* Kubernetes (has its own Service Discovery)
 
 ## Alerts
 
